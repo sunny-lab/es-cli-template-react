@@ -10,7 +10,7 @@ const pageMap = [
 ];
 
 const entry = {
-    app: ['./static/app.js']
+    app: ['./src/app.js']
 };
 
 module.exports = {
