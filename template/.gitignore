@@ -141,7 +141,7 @@ GitHub.sublime-settings
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff:
-.idea/**/workspace.xml
+../.idea/workspace.xml
 .idea/**/tasks.xml
 .idea/dictionaries
 
@@ -181,9 +181,6 @@ atlassian-ide-plugin.xml
 # Cursive Clojure plugin
 .idea/replstate.xml
 
-# Ruby plugin and RubyMine
-/.rakeTasks
-
 # Crashlytics plugin (for Android Studio and IntelliJ)
 com_crashlytics_export_strings.xml
 crashlytics.properties
@@ -203,5 +200,6 @@ fabric.properties
 
 # Custom
 .idea/
+build/
 
 # End of https://www.gitignore.io/api/OSX,Linux,WebStorm,SublimeText,node
