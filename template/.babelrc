@@ -4,7 +4,13 @@
       "env",
       {
         "targets": {
-          "node": "6.6"
+          "browsers": [
+            "ie >= 11",
+            "Edge >= 12",
+            "Safari >4",
+            "Chrome >= 21",
+            "Firefox >= 28"
+          ]
         }
       }
     ],

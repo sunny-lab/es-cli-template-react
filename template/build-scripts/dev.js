@@ -1,32 +1,33 @@
-var path = require('path'),
-    shelljs = require('shelljs'),
-    webpack = require('webpack'),
-    WebpackDevServer = require("webpack-dev-server");
+const path = require('path');
+const shelljs = require('shelljs');
+const webpack = require('webpack');
+const WebpackDevServer = require("webpack-dev-server");
+const _ = require('lodash');
 
-var config = require('../config');
+const envConfig = _.get(require('../config'), 'dev', {});
 
 if (!process.env.NODE_ENV) {
-    process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV)
+    process.env.NODE_ENV = JSON.parse(_.get(envConfig, 'env.NODE_ENV'));
 }
 
-var webpackConfig = require('./webpack.dev'),
+const webpackConfig = require('./webpack.dev'),
     logger = require('./logger'),
     packageJson = require('../package.json');
 
-var compiler = webpack(webpackConfig),
+const compiler = webpack(webpackConfig),
     server = new WebpackDevServer(compiler, {
-        contentBase: path.join(config.build.assetsRoot, config.dev.assetsSubDirectory),
-        port: config.dev.port,
+        contentBase: path.join(_.get(envConfig, 'assetsRoot', '.'), _.get(envConfig, 'assetsSubDirectory', '.')),
+        port: _.get(envConfig, 'port', 8081),
         clientLogLevel: "warning",
         stats: {colors: true},
-        publicPath: webpackConfig.output.publicPath,
+        publicPath: _.get(webpackConfig, 'output.publicPath', '/'),
         headers: {"Access-Control-Allow-Origin": "*"}
     });
 compiler.plugin('done', function () {
     logger.info('compile done');
 });
-server.listen(config.dev.port, 'localhost', function () {
-    logger.info("Starting static server on http://localhost:" + config.dev.port);
+server.listen(_.get(envConfig, 'port', 8081), 'localhost', function () {
+    logger.info("Starting static server on http://localhost:" + _.get(envConfig, 'port', 8081));
 });
 
 

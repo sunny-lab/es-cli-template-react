@@ -1,71 +1,28 @@
-var path = require('path'),
-    webpack = require('webpack'),
-    merge = require('webpack-merge'),
-    CopyWebpackPlugin = require('copy-webpack-plugin'),
-    HtmlWebpackPlugin = require('html-webpack-plugin'),
-    ExtractTextPlugin = require('extract-text-webpack-plugin'),
-    WriteFilePlugin = require('write-file-webpack-plugin'),
-    StatsPlugin = require('stats-webpack-plugin');
-
-var util = require('./util'),
-    config = require('../config'),
-    baseWebpackConfig = require('./webpack.base');
+const path = require('path');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+const _ = require('lodash');
 
 
-var env = config.build.env;
+const envConfig = _.get(require('../config'), 'prod', {}),
+    getBaseWebpackConfig = require('./webpack.base');
 
-var webpackConfig = merge(baseWebpackConfig, {
+
+const baseWebpackConfig = getBaseWebpackConfig(envConfig);
+const entry = _.get(envConfig, 'entry', {});
+
+const webpackConfig = merge(baseWebpackConfig, {
+    entry: entry,
     devtool: false,
-    output: {
-        path: config.build.assetsRoot,
-        filename: util.assetsPath('js/[name].[chunkhash].js'),
-        chunkFilename: util.assetsPath('js/[id].[chunkhash].js')
-    },
     plugins: [
-        new webpack.DefinePlugin({
-            'process.env': env
-        }),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false
             },
             sourceMap: false
         }),
-        // extract css into its own file
-        new ExtractTextPlugin({
-            filename: util.assetsPath('css/[name].[contenthash].css')
-        }),
-        
-        // copy custom static assets
-        new CopyWebpackPlugin([
-            {
-                from: path.resolve(__dirname, '../assets'),
-                to: config.build.assetsSubDirectory,
-                ignore: ['.*']
-            }
-        ]),
     ]
 });
-
-// handle backend html
-if (Array.isArray(config.build.pageMap)) {
-    config.build.pageMap.forEach(function (page) {
-        webpackConfig.plugins.push(new HtmlWebpackPlugin(page));
-    });
-}
-// handle copy assets
-if (Array.isArray(config.build.copyAssets)) {
-    webpackConfig.plugins.push(new CopyWebpackPlugin(config.build.copyAssets));
-}
-
-// handle analyze
-if (config.build.analyze) {
-    webpackConfig.plugins.push(
-        new StatsPlugin('stats.json', {
-            chunkModules: true
-        })
-    )
-}
 
 
 module.exports = webpackConfig;

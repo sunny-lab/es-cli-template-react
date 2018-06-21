@@ -17,7 +17,8 @@
     <% } %>
     "scripts": {
         "dev": "node build-scripts/dev.js",
-        "prod": "node build-scripts/publish.js",
+        "build": "node build-scripts/build.js",
+        "prod": "node build-scripts/prod.js",
         "test": ""
     },
     "author": "<%= context.basic.author %>",
@@ -67,6 +68,7 @@
     },
     "dependencies": {
         "babel-polyfill": "^6.23.0",
+        "lodash": "^4.17.10",
         "react": "^15.6.2",
         "react-dom": "^15.6.2"
     }

@@ -14,6 +14,15 @@ const entry = {
 };
 
 module.exports = {
+    dev: {
+        entry: entry,
+        env: {
+            NODE_ENV: '"development"'
+        },
+        port: 8081,
+        assetsSubDirectory: 'assets',
+        assetsPublicPath: 'http://localhost:8081/',
+    },
     build: {
         entry: entry,
         env: {
@@ -24,16 +33,18 @@ module.exports = {
         // TODO: add oss domain name
         assetsPublicPath: '/',
         pageMap: pageMap,
-        analyze: false
+        analyze: true
     },
-    dev: {
+    prod: {
         entry: entry,
         env: {
-            NODE_ENV: '"development"'
+            NODE_ENV: '"production"'
         },
-        port: 8081,
+        assetsRoot: path.resolve(__dirname, '../build'),
         assetsSubDirectory: 'assets',
-        assetsPublicPath: 'http://localhost:8081/',
+        // TODO: add oss domain name
+        assetsPublicPath: '/',
         pageMap: pageMap,
-    }
+        analyze: true
+    },
 };
