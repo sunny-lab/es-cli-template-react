@@ -20,6 +20,8 @@ module.exports = {
             NODE_ENV: '"development"'
         },
         port: 8081,
+        assetsRoot: path.resolve(__dirname, '../build'),
+        pageMap: pageMap,
         assetsSubDirectory: 'assets',
         assetsPublicPath: 'http://localhost:8081/',
     },
